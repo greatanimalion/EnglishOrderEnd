@@ -17,7 +17,7 @@ router.get('/allStudent',async (req, res) => {
 router.post('/addStudent',async (req, res) => {
   const {account,password}=req.body;
   if(!account ||!password)return res.status(400).send('Please provide account and password');
-  let result=await sql.addStudent(account,password);
+  let result=await sql.insertBaseStudent(account,password);
   console.log('---------------INSERT-----------------');
   console.log(result);
   console.log('------------------------------------');
