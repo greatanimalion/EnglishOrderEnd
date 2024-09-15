@@ -8,6 +8,8 @@ router.get('/test', (req, res) => {
 
 router.get('/allStudent', async (req, res) => {
  let result = await sql.query()
+ console.log(result);
+ 
  res.send(result);
 
 });
