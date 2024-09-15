@@ -8,25 +8,32 @@ function query(sql = 'SELECT * FROM student') {
         connection.query(sql, function (err, result) {
             if (err) {
                 console.log('[SELECT ERROR] - ', err.message);
-                return reject(err)
+                return reject(err);
             }
-            resolve(result)
+            resolve(result);
         });
     });
 }
 
-function insertBaseStudent(account, password) {
-    return new Promise((resolve, reject) => {
-        const sql = 'INSERT INTO student(account,password) VALUES(?,?)';
-        const params = [account, password];
-        connection.query(sql, params, function (err, result) {
-            if (err) {
-                console.log('[INSERT ERROR] - ', err.message);
-                return reject(err)
-            }
-            resolve(result)
+async function insertBaseStudent(account, password) {
+    let res;
+    try {
+        res = await new Promise((resolve, reject) => {
+            const sql = 'INSERT INTO student(account,password) VALUES(?,?)';
+            const params = [account, password];
+            connection.query(sql, params, function (err, result) {
+                if (err) {
+                    console.log('[INSERT ERROR] - ', err.message);
+                    return reject(err);
+                }
+                resolve(result);
+            });
         });
-    });
+    } catch (error) {
+        console.log(error);
+        return false 
+    }
+    return res;
 }
 
 function findStudentByAccount(account) {
@@ -36,9 +43,9 @@ function findStudentByAccount(account) {
         connection.query(sql, params, function (err, result) {
             if (err) {
                 console.log('[SELECT ERROR] - ', err.message);
-                return reject(err)
+                return reject(err);
             }
-            resolve(result)
+            resolve(result);
         });
     });
 }
@@ -71,4 +78,4 @@ function findStudentByAccount(account) {
 // // connection.end();
 
 
-module.exports = { query,insertBaseStudent,findStudentByAccount };
+module.exports = { query, insertBaseStudent, findStudentByAccount };
