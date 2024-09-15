@@ -13,7 +13,7 @@ app.use(session({
   }));
 
 app.use((req, res, next)=>{
-   log(getMinutes()+"method:"+req.method+',url:'+req.url)
+   log("method:"+req.method+',url:'+req.url)
    next()
     
 })
