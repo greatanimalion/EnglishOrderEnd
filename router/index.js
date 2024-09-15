@@ -12,7 +12,7 @@ router.get('/allStudent',async (req, res) => {
  console.log(result);
  console.log('-------------------------------------');
  if(result)res.status(200).send(result);
- else res.status(404).send('error');
+ else res.status(404).send('查找失败');
 });
 router.post('/addStudent',async (req, res) => {
   const {account,password}=req.body;
@@ -21,8 +21,8 @@ router.post('/addStudent',async (req, res) => {
   console.log('---------------INSERT-----------------');
   console.log(result);
   console.log('------------------------------------');
-  if(result)res.status(200).send(result);
-  else res.status(404).send('error');
+  if(result)res.status(200).send('创建成功');
+  else res.status(404).send('账号重复');
 })
 router.get('/findStudent/:account',async (req, res) => {
   const account=req.params.account

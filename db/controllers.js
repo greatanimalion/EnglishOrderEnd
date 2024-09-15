@@ -3,6 +3,7 @@ const mysqlConfig = require('./config');
 const connection = mysql.createConnection(mysqlConfig);
 connection.connect();
 
+//查询所有学生
 function query(sql = 'SELECT * FROM student') {
     return new Promise((resolve, reject) => {
         connection.query(sql, function (err, result) {
@@ -15,6 +16,7 @@ function query(sql = 'SELECT * FROM student') {
     });
 }
 
+//插入基本信息
 async function insertBaseStudent(account, password) {
     let res;
     try {
@@ -30,12 +32,12 @@ async function insertBaseStudent(account, password) {
             });
         });
     } catch (error) {
-        console.log(error);
         return false 
     }
     return res;
 }
 
+//根据账号查询学生
 function findStudentByAccount(account) {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM student WHERE account = ?';
