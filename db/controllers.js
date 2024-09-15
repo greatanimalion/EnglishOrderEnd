@@ -57,4 +57,4 @@ function query(sql='SELECT * FROM student', callback) {
 // // connection.end();
 
 
-module.export ={ query};
+module.exports ={ query};
