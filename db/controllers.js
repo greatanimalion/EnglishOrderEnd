@@ -3,17 +3,16 @@ const mysqlConfig = require('./config');
 const connection = mysql.createConnection(mysqlConfig);
 connection.connect();
 
-async function query(callback,sql='SELECT * FROM student') {
-   let res=await connection.query(sql, function (err, result) {
-        if (err) {
-            console.log('[SELECT ERROR] - ', err.message);
-            return;
-        }
-        console.log('---------------SELECT----------------');
-        console.log('-------------------------------------');
+function query(sql = 'SELECT * FROM student') {
+    return new Promise((resolve, reject) => {
+        connection.query(sql, function (err, result) {
+            if (err) {
+                console.log('[SELECT ERROR] - ', err.message);
+                return reject(err)
+            }
+            resolve(result)
+        });
     });
-    console.log(res);
-    return res;
 }
 
 
@@ -57,4 +56,4 @@ async function query(callback,sql='SELECT * FROM student') {
 // // connection.end();
 
 
-module.exports ={ query};
+module.exports = { query };
