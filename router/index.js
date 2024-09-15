@@ -7,6 +7,6 @@ router.get('/test', (req, res) => {
 
 
 router.get('/allStudent', (req, res) => {
- sql.query(res.send)
+ res.send(sql.query())
 });
 module.exports = router;
