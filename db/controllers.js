@@ -11,7 +11,7 @@ async function query(sql='SELECT * FROM student') {
             return;
         }
         console.log('---------------SELECT----------------');
-        res=result;
+        res=JSON.stringify(result);
         console.log(res);
         console.log('-------------------------------------');
     });

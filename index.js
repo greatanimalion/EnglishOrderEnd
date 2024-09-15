@@ -15,7 +15,6 @@ app.use(session({
 app.use((req, res, next)=>{
    log("method:"+req.method+',url:'+req.url)
    next()
-    
 })
 
 app.use(bodyParse.urlencoded({ extended: true }));
