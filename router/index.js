@@ -6,7 +6,10 @@ router.get('/test', (req, res) => {
 });
 
 
-router.get('/allStudent', (req, res) => {
-  sql.query(res.send)
+router.get('/allStudent', async (req, res) => {
+ let result = await sql.query()
+ res.send(result);
+console.log(result);
+
 });
 module.exports = router;
