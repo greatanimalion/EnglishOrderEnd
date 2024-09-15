@@ -1,10 +1,10 @@
 const mysql=require('mysql');
 const mysqlConfig=require('./config');
-var connection = mysql.createConnection(mysqlConfig);
+const connection = mysql.createConnection(mysqlConfig);
 connection.connect();
 
 //查 query
-const c = 'SELECT * FROM user';
+const c = 'SELECT * FROM student';
 connection.query(c,function (err, result) {
     if(err){
      console.log('[SELECT ERROR] - ',err.message);
@@ -16,7 +16,7 @@ connection.query(c,function (err, result) {
 });
 
 // 增 insert
-const  sql = 'INSERT INTO user(name,sex,age) VALUES(?,?,?)';
+const  sql = 'INSERT INTO student(name,sex,age) VALUES(?,?,?)';
 const  params = ['张四', '男','21'];
 connection.query(sql, params, function (err, result) {
     if(err){
@@ -29,7 +29,7 @@ connection.query(sql, params, function (err, result) {
 });
 
 // //改 update
-const userModSql = 'UPDATE user SET name = ?,sex = ? ,age= ? where id= ?';
+const userModSql = 'UPDATE student SET name = ?,sex = ? ,age= ? where id= ?';
 const userModSql_Params = ["王五","女","22","3"];
 connection.query(userModSql,userModSql_Params,function (err, result) {
     if(err){
@@ -42,7 +42,7 @@ connection.query(userModSql,userModSql_Params,function (err, result) {
   });
 
 //删 delete
-const userDelSql = 'DELETE FROM user WHERE id = 3';
+const userDelSql = 'DELETE FROM student WHERE id = 3';
 connection.query(userDelSql,function (err, result) {
     if(err){
      console.log('[DELETE ERROR] - ',err.message);

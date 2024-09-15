@@ -1,16 +1,26 @@
 const express = require('express');
 const os = require('os');
+const bodyParse = require("body-parser");
+const session = require('express-session');
+const router =require('./router/index');
 const app = express();
 const log=console.log;
+app.use(session({
+    secret: 'lonely',
+    cookie:{maxAge:60*1000*24*7},
+    resave: false,
+    saveUninitialized: false
+  }));
+
 app.use((req, res, next)=>{
-   log("method:"+req.method+',url:'+req.url)
+   log(getMinutes()+"method:"+req.method+',url:'+req.url)
    next()
     
 })
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
 
+app.use(bodyParse.urlencoded({ extended: true }));
+app.use(bodyParse.json());
+app.use(router);    
 
 
 
