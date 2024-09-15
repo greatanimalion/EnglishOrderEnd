@@ -15,6 +15,19 @@ function query(sql = 'SELECT * FROM student') {
     });
 }
 
+function insertBaseStudent(account, password) {
+    return new Promise((resolve, reject) => {
+        const sql = 'INSERT INTO student(account,password) VALUES(?,?)';
+        const params = [account, password];
+        connection.query(sql, params, function (err, result) {
+            if (err) {
+                console.log('[INSERT ERROR] - ', err.message);
+                return reject(err)
+            }
+            resolve(result)
+        });
+    });
+}
 
 // // 增 insert
 // const sql = 'INSERT INTO student(name,sex,age) VALUES(?,?,?)';
@@ -56,4 +69,4 @@ function query(sql = 'SELECT * FROM student') {
 // // connection.end();
 
 
-module.exports = { query };
+module.exports = { query,insertBaseStudent };
