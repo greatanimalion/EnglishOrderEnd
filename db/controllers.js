@@ -3,9 +3,9 @@ const mysqlConfig = require('./config');
 const connection = mysql.createConnection(mysqlConfig);
 connection.connect();
 
-function query(callback,sql='SELECT * FROM student') {
+async function query(callback,sql='SELECT * FROM student') {
     let res;
-    connection.query(sql, function (err, result) {
+   await connection.query(sql, function (err, result) {
         if (err) {
             console.log('[SELECT ERROR] - ', err.message);
             return;
@@ -13,9 +13,11 @@ function query(callback,sql='SELECT * FROM student') {
         console.log('---------------SELECT----------------');
         res=JSON.stringify(result);
         console.log(res);
-        callback(res);
+        
         console.log('-------------------------------------');
     });
+    console.log(res);
+    
     return res;
 }
 
