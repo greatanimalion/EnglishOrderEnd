@@ -3,7 +3,7 @@ const mysqlConfig = require('./config');
 const connection = mysql.createConnection(mysqlConfig);
 connection.connect();
 
-async function query(sql='SELECT * FROM test') {
+async function query(sql='SELECT * FROM student') {
     let res;
      await connection.query(sql, function (err, result) {
         if (err) {
