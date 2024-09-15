@@ -24,4 +24,14 @@ router.post('/addStudent',async (req, res) => {
   if(result)res.status(200).send(result);
   else res.status(404).send('error');
 })
+router.get('/findStudent/:account',async (req, res) => {
+  const account=req.params.account
+  if(!account)return res.status(400).send('Please provide account');
+  let result=await sql.findStudentByAccount(account);
+  console.log('---------------findStudentByAccount-----------------');
+  console.log(result);
+  console.log('------------');
+  if(result)res.status(200).send(result);
+  else res.status(404).send('error');
+})
 module.exports = router;

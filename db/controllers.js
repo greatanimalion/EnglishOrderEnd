@@ -29,18 +29,20 @@ function insertBaseStudent(account, password) {
     });
 }
 
-// // 增 insert
-// const sql = 'INSERT INTO student(name,sex,age) VALUES(?,?,?)';
-// const params = ['张四', '男', '21'];
-// connection.query(sql, params, function (err, result) {
-//     if (err) {
-//         console.log('[UPDATE ERROR] - ', err.message);
-//         return;
-//     }
-//     console.log('----------UPDATE-------------');
-//     console.log('UPDATE affectedRows', result.affectedRows);
-//     console.log('******************************');
-// });
+function findStudentByAccount(account) {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM student WHERE account = ?';
+        const params = [account];
+        connection.query(sql, params, function (err, result) {
+            if (err) {
+                console.log('[SELECT ERROR] - ', err.message);
+                return reject(err)
+            }
+            resolve(result)
+        });
+    });
+}
+
 
 // // //改 update
 // const userModSql = 'UPDATE student SET name = ?,sex = ? ,age= ? where id= ?';
@@ -69,4 +71,4 @@ function insertBaseStudent(account, password) {
 // // connection.end();
 
 
-module.exports = { query,insertBaseStudent };
+module.exports = { query,insertBaseStudent,findStudentByAccount };
