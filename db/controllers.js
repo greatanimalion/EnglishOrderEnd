@@ -12,6 +12,7 @@ async function query(sql='SELECT * FROM student') {
         }
         console.log('---------------SELECT----------------');
         res=result;
+        console.log(res);
         console.log('-------------------------------------');
     });
     return res;
