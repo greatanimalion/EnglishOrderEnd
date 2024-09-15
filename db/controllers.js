@@ -57,4 +57,4 @@ connection.query(userDelSql, function (err, result) {
 // connection.end();
 
 
-module.export.query = query;
+module.export ={ query};
