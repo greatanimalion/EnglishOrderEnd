@@ -1,10 +1,20 @@
 const express = require('express');
 const os = require('os');
 const app = express();
-
+const log=console.log;
+app.use((req, res, next)=>{
+   log("method:"+req.method+',url:'+req.url)
+   next()
+    
+})
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
+
+
+
+
+
 
 app.listen(3000, () => {
     console.log('Server is running');
@@ -24,4 +34,7 @@ function getIpAddress() {
         }
     }
 }
-console.log('baseUrl:http://'+getIpAddress()+':3000');
+
+
+
+console.log('baseUrl:http://' + getIpAddress() + ':3000');
