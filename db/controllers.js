@@ -32,7 +32,7 @@ async function insertBaseStudent(account, password) {
             });
         });
     } catch (error) {
-        return false 
+        return false;
     }
     return res;
 }
@@ -52,32 +52,57 @@ function findStudentByAccount(account) {
     });
 }
 
+//完善信息
+function refineStudent(id, name, school, major, sex, age) {
+    return new Promise((resolve, reject) => {
+        const sql = 'UPDATE student SET name = ?,sex = ? ,age= ? where id= ?';
+        const params = [name, sex, age, id];
+        connection.query(sql, params, function (err, result) {
+            if (err) {
+                console.log('[UPDATE ERROR] - ', err.message);
+                return reject(err);
+            }
+            resolve(result);
+        });
+    });
+}
 
-// // //改 update
-// const userModSql = 'UPDATE student SET name = ?,sex = ? ,age= ? where id= ?';
-// const userModSql_Params = ["王五", "女", "22", "3"];
-// connection.query(userModSql, userModSql_Params, function (err, result) {
-//     if (err) {
-//         console.log('[UPDATE ERROR] - ', err.message);
-//         return;
-//     }
-//     console.log('----------UPDATE-------------');
-//     console.log('UPDATE affectedRows', result.affectedRows);
-//     console.log('******************************');
-// });
+//删除数据
+function deleteStudent(id) {
+    return new Promise((resolve, reject) => {
+        const sql = 'DELETE FROM student WHERE id = ?';
+        const params = [id];
+        connection.query(sql, params, function (err, result) {
+            if (err) {
+                console.log('[DELETE ERROR] - ', err.message);
+                return reject(err);
+            }
+            resolve(result);
+        });
+    });
+}
 
-// //删 delete
-// const userDelSql = 'DELETE FROM student WHERE id = 3';
-// connection.query(userDelSql, function (err, result) {
-//     if (err) {
-//         console.log('[DELETE ERROR] - ', err.message);
-//         return;
-//     }
-//     console.log('-------------DELETE--------------');
-//     console.log('DELETE affectedRows', result.affectedRows);
-//     console.log('---------------------------------');
-// });
-// // connection.end();
+//查询所有人数
+function queryCount() {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT COUNT(*) as count FROM student';
+        connection.query(sql, function (err, result) {
+            if (err) {
+                console.log('[SELECT ERROR] - ', err.message);
+                return reject(err);
+            }
+            resolve(result);
+        });
+    });
+}
 
 
-module.exports = { query, insertBaseStudent, findStudentByAccount };
+
+module.exports = {
+    query,
+    insertBaseStudent,
+    findStudentByAccount,
+    refineStudent,
+    deleteStudent,
+    queryCount
+};
