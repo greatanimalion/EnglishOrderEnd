@@ -3,10 +3,16 @@ const os = require('os');
 const bodyParse = require("body-parser");
 const session = require('express-session');
 const router =require('./router/index');
+const studentRouter = require('./router/student');
+const cors = require('cors');
+
+
 const app = express();
+app.use(cors())
+
 const log=console.log;
 app.use(session({
-    secret: 'lonely',
+    secret: 'hist',
     cookie:{maxAge:60*1000*24*7},
     resave: false,
     saveUninitialized: false
@@ -20,7 +26,7 @@ app.use((req, res, next)=>{
 app.use(bodyParse.urlencoded({ extended: true }));
 app.use(bodyParse.json());
 app.use(router);    
-
+app.use(studentRouter);
 
 
 

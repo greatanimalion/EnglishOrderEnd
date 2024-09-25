@@ -53,10 +53,10 @@ function findStudentByAccount(account) {
 }
 
 //完善信息
-function refineStudent(id, name, school, major, sex, age) {
+function refineInfor(id,name='',school='',major='',sex='',area='',email='') {
     return new Promise((resolve, reject) => {
-        const sql = 'UPDATE student SET name = ?,sex = ? ,age= ? where id= ?';
-        const params = [name, sex, age, id];
+        const sql = 'UPDATE student SET name = ? ,school= ?,major= ?,sex= ?,area= ?,email= ? where id= ?';
+        const params = [name,school,major,sex,area,email,id];
         connection.query(sql, params, function (err, result) {
             if (err) {
                 console.log('[UPDATE ERROR] - ', err.message);
@@ -102,7 +102,7 @@ module.exports = {
     query,
     insertBaseStudent,
     findStudentByAccount,
-    refineStudent,
+    refineInfor,
     deleteStudent,
     queryCount
 };
