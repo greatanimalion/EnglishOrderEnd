@@ -23,6 +23,7 @@ router.post('/login',async (req,res)=>{
     let token=signToken({id:result[0].id,type:result[0].type});
     req.session.token=token
     const infor={
+      id:result[0].id,
       name:result[0].name,
       account:result[0].account,
       school:result[0].school,
