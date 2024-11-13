@@ -4,7 +4,8 @@ const mysqlConfig ={
     host:'localhost',
     user:'root',
     password:'123456',
-    database:'english',
+    // database:'english',
+    database:'test',
     port:3306,
     connectionLimit:20,//最大连接数
     connectionTimeout:10000//连接超时时间
