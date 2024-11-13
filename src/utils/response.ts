@@ -20,7 +20,7 @@ export function success(data = [], msg = 'success', code = 200) {
    * @param { * } data 扩展提示
    * @param { number } code 状态码
    */
- export  function error(msg = 'error', data = [], code = 400) {
+ export  function error(data ="",msg = 'error',  code = 400) {
     return {
       code,
       msg,

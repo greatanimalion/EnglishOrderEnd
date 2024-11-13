@@ -5,31 +5,31 @@ mapping文件夹主要用于存放对不同数据表进行操作的sql语句，
 加深理解和印象。当然如果你想快速的进行服务端开发，
 并不想深入了解这些sql语句，也可以使用ORM框架来代替这一部分。
 */
-const sqlmap = {
-  Admin: {
-    adminDel: (id: number) => {
-      return `delete from admin where id = ${id}`;
+const sqlMap = {
+  User: {
+    userDel: (id: number) => {
+      return `delete from user where id = ${id}`;
     },
-    adminAdd: (data:any) => {
-      return `insert into admin (id,account,password,email,weight) values (${data
+    userAdd: (data:any) => {
+      return `insert into user (id,account,password,email,weight) values (${data
         .map((item:any) => `'${item}'`)
         .join(',')})`;
     },
-    adminByAccount: (account: string) => {
-      return `select id,account,password,email,weight from admin where account like '%${account}%'`;
+    getUserByAccount: (account: string) => {
+      return `select id,account,password,email,weight from user where account like '%${account}%'`;
     },
-    adminNameQuery: (account: string) => {
-      return `select id,account,password,email,weight from admin where account = '${account}'`;
+    getUserByNameQuery: (account: string) => {
+      return `select id,account,password,email,weight from user where account = '${account}'`;
     },
-    adminUpdate: (data:any) => {
+    userUpdate: (data:any) => {
       return `
-        update admin set account = '${data.account}',password = '${data.password}',
+        update user set account = '${data.account}',password = '${data.password}',
         email = '${data.email}',weight = ${data.weight} where id = '${data.id}'
       `;
     },
-    adminUpdateActive: (data:any) => {
+    userUpdateActive: (data:any) => {
       return `
-      update admin set weight = ${data.weight} where id = '${data.id}'
+      update user set weight = ${data.weight} where id = '${data.id}'
     `;
     },
   },
@@ -71,4 +71,4 @@ const sqlmap = {
   },
 };
 
-export default sqlmap;
+export default sqlMap;

@@ -4,43 +4,43 @@ service文件夹负责处理业务逻辑和数据操作，
 主要负责处理业务逻辑、调用数据访问层（DAO）进行数据操作，
 并将处理结果返回给控制器或其他上层模块。
 */
-import sqlmap from "../mapping/sqlmap.js";
-const { Admin, pagingQuery } = sqlmap;
+import sqlMap from "../mapping/sqlmap.js";
+const { User, pagingQuery } = sqlMap;
 import connectionQuery from'../utils/connectionQuey.js';
-class AdminService {
+class UserService {
   /**
    * 分页查询管理员数据
    * @param page 页数
    * @param limit 条数
    * @returns
    */
-  getAdminListPage(data:any) {
+  getUserListPage(data:any) {
     return connectionQuery(
-      pagingQuery(Number(data.page), Number(data.limit), 'admin')
+      pagingQuery(Number(data.page), Number(data.limit), 'User')
     );
   }
 
   //根据传入账号查询指定数据
-  getAdminByName(account:string) {
-    return connectionQuery(Admin.adminNameQuery(account));
+  getUserByName(account:string) {
+    return connectionQuery(User.getUserByAccount(account));
   }
 
-  //新增后台管理员数据
-  addAdminInfo(data:any) {
-    return connectionQuery(Admin.adminAdd(data));
+  //新增用户员数据
+  addUserInfo(data:any) {
+    return connectionQuery(User.userAdd(data));
   }
 
-  //删除指定后台管理员数据
-  delAdmin(id:number) {
-    return connectionQuery(Admin.adminDel(id));
+  //删除指定用户员数据
+  delUser(id:number) {
+    return connectionQuery(User.userDel(id));
   }
   /**
    * 根据传入的查询条件查询数据
    * @param {string} account 传入查询条件
    * @returns
    */
-  getAdminByAccount(account:string) {
-    return connectionQuery(Admin.adminByAccount(account));
+  getUserByAccount(account:string) {
+    return connectionQuery(User.getUserByAccount(account));
   }
 
   /**
@@ -49,8 +49,8 @@ class AdminService {
    * @param data 管理员更新数据集合
    * @returns
    */
-  updateAdmin(data:any) {
-    return connectionQuery(Admin.adminUpdate(data));
+  updateUser(data:any) {
+    return connectionQuery(User.userUpdate(data));
   }
 
   /**
@@ -59,8 +59,8 @@ class AdminService {
    * @param data 修改数据
    * @returns
    */
-  editAdminInfo(data:any) {
-    return connectionQuery(Admin.adminUpdateActive(data));
+  editUserInfo(data:any) {
+    return connectionQuery(User.userUpdateActive(data));
   }
 }
-export default new AdminService();
+export default new UserService();

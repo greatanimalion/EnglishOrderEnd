@@ -6,10 +6,9 @@
   "scripts": {
     "build": "tsc",
     "dev": "nodemon",
-    "start": "node index.js",
-    "debugger": "node ./lib/test/debugger.js"
+    "start": "node index.js"
   },
-  "author": "",
+  "author": "lb",
   "license": "ISC",
   "description": "",
   "dependencies": {
