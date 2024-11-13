@@ -1,3 +1,4 @@
+"use strict";
 // import express from 'express';
 // import { verifyToken } from '../utils/token.js';
 // const router = express.Router();
@@ -47,5 +48,4 @@
 //   if (result) res.status(200).send(result);
 //   else res.status(404).send('查找失败');
 // });
-
 // export default router;

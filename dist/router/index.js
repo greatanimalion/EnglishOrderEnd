@@ -16,6 +16,4 @@ router.delete('/admin/deleteAdmin', AdminController.deleteAdmin);
 router.get('/admin/getAdminDim', AdminController.getAdminDim);
 //修改管理员信息
 router.put('/admin/updateAdmin', AdminController.updateAdmin);
-
-export default router; 
-
+export default router;

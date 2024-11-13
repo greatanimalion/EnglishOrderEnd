@@ -1,9 +1,11 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import session from 'express-session';
 import cors from 'cors';
-// import router from './router/index.js';
-import studentRouter from './router/student.js';
+import session from 'express-session';
+import router from './router/index.js';
+import { connect } from './db/index.js';
+
+connect();
 
 const app = express();
 
@@ -14,25 +16,23 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
-app.use((req, res, next) => {
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use((req:any, res:any, next:any) => {
     console.log("method:" + req.method + ',url:' + req.url)
     next()
 })
 
-app.use((req, res, next) => {
+app.use((req:any, res:any, next:any) => {
     //模拟延迟
     setTimeout(() => {
         next();
-    }, 1000)
+    },0)
 })
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-// app.use(router);
-app.use(studentRouter);
-
-
-
+app.get('/', (req:any, res:any) => {
+    res.send('Hello Worlqwqd!')
+})
+app.use(router);
 
 const run = () => {
     app.listen(3000, () => {
@@ -41,6 +41,4 @@ const run = () => {
     });
 }
 export default run;
-
-
 

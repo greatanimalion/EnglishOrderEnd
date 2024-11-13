@@ -1,6 +1,6 @@
 {
-    "watch": ["server.js"],
-    "ext": "js",
-    "ignore": ["node_modules/**"],
-    "exec": "node index.js"
+    "watch": ["src/index.ts","src/**/*"],
+    "ignore":["ndoe_modules","dist","lib","public"],
+    "exec": "tsc && node index.js",
+    "ext": ".ts"
 }

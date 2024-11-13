@@ -1,5 +1,5 @@
+"use strict";
 // import mysql from'mysql';
-
 // const mysqlConfig ={
 //     host:'localhost',
 //     user:'root',
@@ -12,7 +12,6 @@
 // // export function getConnection() {
 // //     return connection;
 // // }
-
 // const pool = mysql.createPool(mysqlConfig);
 // const repool=()=>{
 //     pool.on('connection',(stream)=>{

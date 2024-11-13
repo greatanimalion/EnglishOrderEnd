@@ -1,14 +1,19 @@
 {
     "compilerOptions": {
-        "target": "ESNext",
-        "module": "CommonJS",
+        "target": "ES2022",
+        "module": "ESNext",
         "strict": true,
         "esModuleInterop": true,
-        "noEmit": true,
-        "allowImportingTsExtensions": true,
-        "outDir": "./dist",
-        "allowSyntheticDefaultImports": true
+        "outDir": "dist",
+        "lib": ["ESNext","ES2023"],
+        "moduleResolution":"node",
+        "paths": {
+            "undici-types": [
+              "./node_modules/undici-types/index.d.ts"
+            ],
+          },
+        
     },
     "include": ["src/**/*"],
-    "exclude": ["node_modules/**","lib/**"]
+    "exclude": ["node_modules/**","lib/**","dist"],
 }
