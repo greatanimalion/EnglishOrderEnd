@@ -1,12 +1,11 @@
-const express = require('express');
+import express from 'express';
+import { verifyToken } from '../utils/token.js';
 const router = express.Router();
-const { verifyToken } = require('../utils/jwt.config.js');
-const sql = require('../db/controllers.js');
 router.get('/', (req, res) => {
   res.send('Welcome to the student page');
 });
 //完善信息
-router.post('/refineInfor', (req, res) => {
+router.post('/refineInfor', (req:express.Request, res: express.Response) => {
   const { school, major, sex, area, email, name } = req.body;
   if (!req.session.token) return res.status(401).send('请登录');
   const tokenKey = verifyToken(req.session.token).tokenKey;
@@ -48,4 +47,5 @@ router.get('/allStudent', async (req, res) => {
   if (result) res.status(200).send(result);
   else res.status(404).send('查找失败');
 });
-module.exports = router;
+
+export default router;

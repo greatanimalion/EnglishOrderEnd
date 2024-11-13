@@ -1,13 +1,13 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken'
 
 const key = 'hist'
 
-const signToken = function ({id, type}) {
+export const signToken = function ({id, type}:{id:string, type:string}) {
     let token = jwt.sign({id,type}, key, { expiresIn: '12h' })
     return token
   }
 
-const verifyToken = function (token) {
+export const verifyToken = function (token:string) {
     try {
       let tokenKey = jwt.verify(token, key)
       return {
@@ -22,4 +22,3 @@ const verifyToken = function (token) {
       }
     }
   }
- module.exports = { verifyToken, signToken }
