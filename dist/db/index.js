@@ -12,6 +12,9 @@ const mysqlConfig = {
 export const pool = mysql.createPool(mysqlConfig);
 export const connect = () => {
     pool.on('connection', () => {
-        console.log('someone connected!');
+        console.log('A connection is connected!');
     });
+};
+export const end = () => {
+    pool.end();
 };

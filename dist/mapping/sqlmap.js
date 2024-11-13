@@ -5,33 +5,35 @@ mapping文件夹主要用于存放对不同数据表进行操作的sql语句，
 加深理解和印象。当然如果你想快速的进行服务端开发，
 并不想深入了解这些sql语句，也可以使用ORM框架来代替这一部分。
 */
-const sqlmap = {
-    Admin: {
-        adminDel: (id) => {
-            return `delete from admin where id = ${id}`;
+import userSQL from './userSQL.js';
+const sqlMap = {
+    User: {
+        ...userSQL
+    },
+    Opus: {
+        opusAll: () => {
+            return `select * from opus`;
         },
-        adminAdd: (data) => {
-            return `insert into admin (id,account,password,email,weight) values (${data
+        opusDel: (id) => {
+            return `delete from opus where id = ${id}`;
+        },
+        opusAdd: (data) => {
+            return `insert into opus (id,title,author,content,create_time,update_time) values (${data
                 .map((item) => `'${item}'`)
                 .join(',')})`;
         },
-        adminByAccount: (account) => {
-            return `select id,account,password,email,weight from admin where account like '%${account}%'`;
+        opusByTitle: (title) => {
+            return `select id,title,author,content,create_time,update_time from opus where title like '%${title}%'`;
         },
-        adminNameQuery: (account) => {
-            return `select id,account,password,email,weight from admin where account = '${account}'`;
+        opusNameQuery: (title) => {
+            return `select id,title,author,content,create_time,update_time from opus where title = '${title}'`;
         },
-        adminUpdate: (data) => {
+        opusUpdate: (data) => {
             return `
-        update admin set account = '${data.account}',password = '${data.password}',
-        email = '${data.email}',weight = ${data.weight} where id = '${data.id}'
+        update opus set title = '${data.title}',author = '${data.author}',
+        content = '${data.content}',create_time = '${data.create_time}',update_time = '${data.update_time}' where id = '${data.id}'
       `;
-        },
-        adminUpdateActive: (data) => {
-            return `
-      update admin set weight = ${data.weight} where id = '${data.id}'
-    `;
-        },
+        }
     },
     /**
      * 分页查询
@@ -45,4 +47,4 @@ const sqlmap = {
         return `select * from ${table} limit ${limit} offset ${offset}`;
     },
 };
-export default sqlmap;
+export default sqlMap;

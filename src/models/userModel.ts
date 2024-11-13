@@ -10,3 +10,8 @@ export type User = {
     sex:number,//性别
     birthday: string,//出生日期
 }
+
+export type AddUser = {
+    email: string,//邮箱
+    password: string,//密码
+}

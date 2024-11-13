@@ -5,32 +5,31 @@
  * @param { string }  msg 提示信息
  * @param { number } code 状态码
  */
-export function success(data = [], msg = 'success', code = 200) {
+export function success(data = "", msg = 'success', code = 200) {
     return {
-      code,
-      msg,
-      data,
+        data,
+        code,
+        msg,
     };
-  }
-  
-  /**
-   * 错误的返回信息格式
-   * @param {Context}  ctx
-   * @param { string }  msg 错误提示信息
-   * @param { * } data 扩展提示
-   * @param { number } code 状态码
-   */
- export  function error(data ="",msg = 'error',  code = 400) {
+}
+
+/**
+ * 错误的返回信息格式
+ * @param {Context}  ctx
+ * @param { string }  msg 错误提示信息
+ * @param { * } data 扩展提示
+ * @param { number } code 状态码
+ */
+export function error(data = "", msg = 'error', code = 400) {
     return {
-      code,
-      msg,
-      data,
+        code,
+        msg,
+        data,
     };
-  }
-  export default {
+}
+export default {
     success,
     error,
-  }
-  
+}
 
-  
+

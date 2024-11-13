@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "nodemon",
-    "start": "node index.js"
+    "start": "node index.js",
+    "initDBS":"node initDBS.js"
   },
   "author": "lb",
   "license": "ISC",

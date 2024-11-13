@@ -16,7 +16,7 @@ class UserController {
     const { limit, page } = req.body;
     UserService.getUserListPage({ limit, page })
       .then((result:any) => {
-        res.json(response.success(result, 'success', 200));
+        res.json(response.success(result,undefined, 200));
       })
       .catch((err:any) => {
         res.json(response.error(err.code, undefined, err.errno));
@@ -28,23 +28,18 @@ class UserController {
    * @param {Context} ctx
    */
   async addUser(req:Request, res:Response) {
-    const { body: User } = req;
-    const isUser = await UserService.getUserByName(User.account) as any;
+    const { body: {email,password} } = req;
+    if(!email ||!password)res.json(response.error('参数错误', undefined, 404));
+    const isUser = await UserService.getUserByEmail(email) as any;
     if (isUser.length) {
       res.json(
-        response.error(`新增用户${isUser[0].account}已存在！`, undefined, 200)
+        response.error(`新增用户${isUser[0].email}已存在！`, undefined, 200)
       );
       return;
     }
-    UserService.addUserInfo([
-      Math.floor(Math.random() * 10000 - 1),
-      User.account,
-      User.password,
-      User.email,
-      User.weight,
-    ])
+    UserService.addUserInfo({ email, password })
       .then(() => {
-        res.json(response.success(undefined, 'success', 200));
+        res.json(response.success("创建成功",undefined, 200));
       })
       .catch((err:any) => {
         res.json(response.error(err.code, undefined, err.errno));
@@ -59,7 +54,7 @@ class UserController {
     const { body: User } = req;
     UserService.updateUser(User)
       .then((result:any) => {
-        res.json(response.success(undefined, 'success', 200));
+        res.json(response.success('更新成功',undefined, 200));
       })
       .catch((err:any) => {
         res.json(response.error(err.code, undefined, err.errno));
@@ -74,7 +69,7 @@ class UserController {
     const { id } = req.body;
     UserService.delUser(id)
       .then(() => {
-        res.json(response.success(undefined, 'success', 200));
+        res.json(response.success('删除成功',undefined, 200));
       })
       .catch((err:any) => {
         res.json(response.error(err.code, undefined, err.errno));
@@ -87,9 +82,9 @@ class UserController {
    */
   getUserDim(req:Request, res:Response) {
     const { account } = req.query;
-    UserService.getUserByAccount(account as string)
+    UserService.getUserByEmail(account as string)
       .then((result:any) => {
-        res.json(response.success(result, 'success', 200));
+        res.json(response.success(result,undefined,200));
       })
       .catch((err:any) => {
         res.json(response.error(err.code, undefined, err.errno));
@@ -104,7 +99,7 @@ class UserController {
     const { body } = req;
     UserService.editUserInfo(body)
       .then((result:any) => {
-        res.json(response.success(undefined, 'success', 200));
+        res.json(response.success('修改成功',undefined, 200));
       })
       .catch((err:any) => {
         res.json(response.error(err.code, undefined, err.errno));

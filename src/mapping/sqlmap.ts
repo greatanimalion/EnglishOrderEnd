@@ -5,33 +5,11 @@ mapping文件夹主要用于存放对不同数据表进行操作的sql语句，
 加深理解和印象。当然如果你想快速的进行服务端开发，
 并不想深入了解这些sql语句，也可以使用ORM框架来代替这一部分。
 */
+
+import userSQL from './userSQL.js';
 const sqlMap = {
   User: {
-    userDel: (id: number) => {
-      return `delete from user where id = ${id}`;
-    },
-    userAdd: (data:any) => {
-      return `insert into user (id,account,password,email,weight) values (${data
-        .map((item:any) => `'${item}'`)
-        .join(',')})`;
-    },
-    getUserByAccount: (account: string) => {
-      return `select id,account,password,email,weight from user where account like '%${account}%'`;
-    },
-    getUserByNameQuery: (account: string) => {
-      return `select id,account,password,email,weight from user where account = '${account}'`;
-    },
-    userUpdate: (data:any) => {
-      return `
-        update user set account = '${data.account}',password = '${data.password}',
-        email = '${data.email}',weight = ${data.weight} where id = '${data.id}'
-      `;
-    },
-    userUpdateActive: (data:any) => {
-      return `
-      update user set weight = ${data.weight} where id = '${data.id}'
-    `;
-    },
+    ...userSQL
   },
   Opus:{
     opusAll: () => {

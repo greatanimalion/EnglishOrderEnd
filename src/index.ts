@@ -29,9 +29,6 @@ app.use((req:any, res:any, next:any) => {
         next();
     },0)
 })
-app.get('/', (req:any, res:any) => {
-    res.send('Hello Worlqwqd!')
-})
 app.use(router);
 
 const run = () => {

@@ -4,9 +4,10 @@ service文件夹负责处理业务逻辑和数据操作，
 主要负责处理业务逻辑、调用数据访问层（DAO）进行数据操作，
 并将处理结果返回给控制器或其他上层模块。
 */
-import sqlMap from "../mapping/sqlmap.js";
-const { User, pagingQuery } = sqlMap;
+import sqlMap from "../mapping/sqlMap.js";
+import { AddUser } from "../models/userModel.js";
 import connectionQuery from'../utils/connectionQuey.js';
+const { User, pagingQuery } = sqlMap;
 class UserService {
   /**
    * 分页查询管理员数据
@@ -22,12 +23,12 @@ class UserService {
 
   //根据传入账号查询指定数据
   getUserByName(account:string) {
-    return connectionQuery(User.getUserByAccount(account));
+    return connectionQuery(User.getUserByEmailQuery(account));
   }
 
   //新增用户员数据
-  addUserInfo(data:any) {
-    return connectionQuery(User.userAdd(data));
+  addUserInfo(user:AddUser) {
+    return connectionQuery(User.userAdd(user));
   }
 
   //删除指定用户员数据
@@ -39,8 +40,8 @@ class UserService {
    * @param {string} account 传入查询条件
    * @returns
    */
-  getUserByAccount(account:string) {
-    return connectionQuery(User.getUserByAccount(account));
+  getUserByEmail(account:string) {
+    return connectionQuery(User.getUserByEmailQuery(account));
   }
 
   /**
