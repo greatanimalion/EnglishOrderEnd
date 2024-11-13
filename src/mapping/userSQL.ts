@@ -1,4 +1,4 @@
-import {AddUser} from '../models/userModel';
+import {AddUser} from '../models/userModel.js';
 export const userSQL = {
     userDel: (id: number) => {
         return `delete from user where id = ${id}`;
