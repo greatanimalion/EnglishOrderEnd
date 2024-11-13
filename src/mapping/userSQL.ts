@@ -1,11 +1,9 @@
-import {AddUser} from '../models/userModel.js';
+import {AddUser,User} from '../models/userModel.js';
 export const userSQL = {
     userDel: (id: number) => {
         return `delete from user where id = ${id}`;
     },
     userAdd: (user: AddUser) => {
-        console.log(user);
-        
         return `insert into user (email,password)
          values (${user.email},${user.password})`;
     },
@@ -18,15 +16,15 @@ export const userSQL = {
     getUserByNameQuery: (account: string) => {
         return `select id,account,password,email,weight from user where account = '${account}'`;
     },
-    userUpdate: (data: any) => {
+    userUpdate: (data: User) => {
         return `
-        update user set account = '${data.account}',password = '${data.password}',
-        email = '${data.email}',weight = ${data.weight} where id = '${data.id}'
+        update user set account = '${data}',password = '${data.password}',
+        email = '${data.email}',name = ${data.name} where id = '${data.id}'
       `;
     },
-    userUpdateActive: (data: any) => {
+    userUpdateActive: (data: {id: number, vip: number}) => {
         return `
-      update user set weight = ${data.weight} where id = '${data.id}'
+      update user set vip = ${data.vip} where id = '${data.id}'
     `;
     },
 }

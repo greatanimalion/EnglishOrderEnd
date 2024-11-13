@@ -15,9 +15,9 @@ class UserService {
    * @param limit 条数
    * @returns
    */
-  getUserListPage(data:any) {
+  getUserListPage(data:{page:number,limit:number}) {
     return connectionQuery(
-      pagingQuery(Number(data.page), Number(data.limit), 'User')
+      pagingQuery(Number(data.page), Number(data.limit), 'user')
     );
   }
 

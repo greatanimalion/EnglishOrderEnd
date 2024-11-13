@@ -7,37 +7,16 @@ mapping文件夹主要用于存放对不同数据表进行操作的sql语句，
 */
 
 import userSQL from './userSQL.js';
+import opusSQL from './opusSQL.js';
 const sqlMap = {
   User: {
     ...userSQL
   },
   Opus:{
-    opusAll: () => {
-      return `select * from opus`;
-    },
-    opusDel: (id: number) => {
-      return `delete from opus where id = ${id}`;
-    },
-    opusAdd: (data:any) => {
-      return `insert into opus (id,title,author,content,create_time,update_time) values (${data
-        .map((item:any) => `'${item}'`)
-        .join(',')})`;
-    },
-    opusByTitle: (title: string) => {
-      return `select id,title,author,content,create_time,update_time from opus where title like '%${title}%'`;
-    },
-    opusNameQuery: (title: string) => {
-      return `select id,title,author,content,create_time,update_time from opus where title = '${title}'`;
-    },
-    opusUpdate: (data:any) => {
-      return `
-        update opus set title = '${data.title}',author = '${data.author}',
-        content = '${data.content}',create_time = '${data.create_time}',update_time = '${data.update_time}' where id = '${data.id}'
-      `;
-    }
+    ...opusSQL
   },
   /**
-   * 分页查询
+   * 无条件分页查询
    * @param {number} page 查询页数
    * @param {number} limit 查询条数
    * @param {string} table 查询表
