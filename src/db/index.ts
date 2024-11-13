@@ -15,4 +15,6 @@ export const connect = () => {
     console.log('A connection is connected!');
   })
 };
-
+export const end= () => {
+  pool.end();
+};
