@@ -22,7 +22,7 @@ app.use((req:any, res:any, next:any) => {
     console.log("method:" + req.method + ',url:' + req.url)
     next()
 })
-
+app.use('/public',express.static('./public'));
 
 app.use((req:any, res:any, next:any) => {
     //模拟延迟

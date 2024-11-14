@@ -5,12 +5,12 @@ export default {
     opusDel: (id: number) => {
         return `delete from opus where id = ${id}`;
     },
-    getOpusByOpusId: (id: number) => {
-        return `select *from opus where id = ${id}`;
+    getOpusByOpusUserId: (userId: number) => {
+        return `select *from opus where userId = ${userId}`;
     },
     createOpus: (data: {title: string, userId: number, time: string, src: string,intro: string}) => {
-        return `insert into opus (title,userId,time,src,intro)
-         values (${data.title},${data.userId},${data.time},${data.src},${data.intro})`;
+        return `insert into opus (title,userId,time,src,intro) 
+        values ('${data.title}','${data.userId}','${data.time}','${data.src}','${data.intro}')`;
     },
     getOpusByTitle: (title: string) => {
         return `select * from opus where title like '%${title}%'`;
