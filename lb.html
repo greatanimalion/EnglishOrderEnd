@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        background-color: rgb(0, 0, 0);
+    }
+
+    h1::after {
+        content: '';
+        display: inline-block;
+        width: 3px;
+        height:50px;
+        background-color: rgb(245, 245, 245);
+        right: 0;
+        top: 0;
+        transform: translate(3px,10px);
+        animation: blink 1s infinite ease-in;
+        transition: all 0.5s linear ;
+        border-radius: 2px;
+    }
+    @keyframes blink {
+        0%{
+            opacity: 1;
+        }
+        50%{
+            opacity: 0;
+        }
+        100%{
+         opacity: 1;
+        }
+    }
+</style>
+
+<body>
+    <!-- <input type="file">
+    <button>发送</button> -->
+    <h1 style="text-align: center;
+     color: white;
+      font-size: 50px;
+       margin-top: 100px;
+        margin-bottom: 100px;
+        ">
+
+    </h1>
+</body>
+<script>
+    // const input = document.querySelector('input[type="file"]');
+    // let files=new FormData();
+    // input.addEventListener('change', function(e) {
+    //     files.delete('video');
+    //     files.append('video', e.target.files[0]);
+    //     console.log(files);
+    // });
+    // document.querySelector('button').addEventListener('click', function(e) {
+    //     e.preventDefault();
+    //     const xhr = new XMLHttpRequest();
+    //     xhr.open('POST', 'http://localhost:3000/opus/createOpus');
+    //     xhr.send(files);    
+    // });
+    let text = `万语难言涩于口，祈尔繁芜胜常春。`.split('');
+    let i = 0;
+    let direction=true;
+    let time = setInterval(function () {
+        document.querySelector('h1').textContent = text.slice(0, i).join('');
+       if(direction)i++;
+       else i--;
+       if(i==text.length+10)direction=false;
+       if(i==0)direction=true;
+    }, 200);
+</script>
+
+</html>

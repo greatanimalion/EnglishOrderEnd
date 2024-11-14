@@ -7,5 +7,8 @@ class OpusService {
     getOpusById(opusId: number) {
         return connectionQuery(sqlMap.Opus.getOpusByOpusId(opusId));
     }
+    createOpus(opus:{title: string, userId: number, time: string, src: string,intro: string}) {
+        return connectionQuery(sqlMap.Opus.createOpus(opus));
+    }
 }
 export default new OpusService;
