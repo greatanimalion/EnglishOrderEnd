@@ -1,9 +1,11 @@
-/*
-router文件夹主要存放了路由的配置，
-和不同URL请求的处理程序或控制器，
-将http请求方法与url路径映射到控制器操作。
-*/
-import express from 'express';
-const router = express.Router(); 
+import  Express  from 'express';
+import opusRouter from './opusRouter.js'
+import userRouter from './userRouter.js'
+
+const router = Express.Router();
+router.use('/opus', opusRouter);
+router.use('/user', userRouter);
+
+
 export default router; 
 

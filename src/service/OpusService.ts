@@ -1,5 +1,5 @@
-import sqlMap from "../mapping/sqlMap";
-import connectionQuery from "../utils/connectionQuey";
+import sqlMap from "../mapping/sqlMap.js";
+import connectionQuery from "../utils/connectionQuey.js";
 class OpusService {
     /**
      * 精确id查询

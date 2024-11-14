@@ -7,12 +7,13 @@
     "build": "tsc",
     "dev": "nodemon",
     "start": "node index.js",
-    "initDBS":"node initDBS.js"
+    "initDBS": "node initDBS.js"
   },
   "author": "lb",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@types/multer": "^1.4.12",
     "acorn": "^8.14.0",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
@@ -20,6 +21,7 @@
     "express-session": "^1.18.0",
     "jsonwebtoken": "^9.0.2",
     "magic-string": "^0.30.12",
+    "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",
     "nodemon": "^3.1.7",
     "typescript": "^5.6.3",

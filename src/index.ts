@@ -23,6 +23,7 @@ app.use((req:any, res:any, next:any) => {
     next()
 })
 
+
 app.use((req:any, res:any, next:any) => {
     //模拟延迟
     setTimeout(() => {

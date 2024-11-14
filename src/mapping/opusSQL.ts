@@ -14,7 +14,7 @@ export default {
             .join(',')})`;
     },
     getOpusByTitle: (title: string) => {
-        return `select id,title,author,content,create_time,update_time from opus where title like '%${title}%'`;
+        return `select * from opus where title like '%${title}%'`;
     },
     opusUpdate: (data: any) => {
         return `

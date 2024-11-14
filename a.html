@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{background-color: rgb(90, 90, 90);}
+</style>
+<body>
+    <input type="file">
+    <button>发送</button>
+</body>
+<script>
+    const input = document.querySelector('input[type="file"]');
+    let files=new FormData();
+    input.addEventListener('change', function(e) {
+        files.delete('video');
+        files.append('video', e.target.files[0]);
+        console.log(files);
+    });
+    document.querySelector('button').addEventListener('click', function(e) {
+        e.preventDefault();
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://localhost:3000/opus/createOpus');
+        xhr.send(files);    
+    });
+</script>
+</html>
