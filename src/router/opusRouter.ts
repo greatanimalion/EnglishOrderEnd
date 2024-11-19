@@ -13,5 +13,6 @@ const upload = multer({ dest: path.join(__dirname, '../../public/videos') })
 router.post('/createOpus', upload.single('video'),OpusController.createOpus)
 //精确查找opus
 router.get('/:id',OpusController.getOpusById)
-
+//删除作品
+router.delete('/del',OpusController.deleteOpus)
 export default router

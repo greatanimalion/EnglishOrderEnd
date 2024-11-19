@@ -20,4 +20,12 @@ function saveImg(file: any) {
     })
   })
 }
+export function deleteImg(src:string){
+  return new Promise((resolve, reject) => {
+    fs.unlink(path.join(__dirname, `../..${src}`), (err:any) => {
+      if (err) { reject(err) }
+      resolve({success:true})
+    })
+  })
+}
 export default saveImg

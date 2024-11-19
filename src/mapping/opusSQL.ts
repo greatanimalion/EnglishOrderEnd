@@ -8,6 +8,9 @@ export default {
     getOpusByOpusUserId: (userId: number) => {
         return `select *from opus where userId = ${userId}`;
     },
+    getOpusById: (id: number) => {
+        return `select * from opus where id = ${id}`;
+    },
     createOpus: (data: {title: string, userId: number, time: string, src: string,intro: string}) => {
         return `insert into opus (title,userId,time,src,intro) 
         values ('${data.title}','${data.userId}','${data.time}','${data.src}','${data.intro}')`;
