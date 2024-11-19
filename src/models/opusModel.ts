@@ -7,4 +7,5 @@ export type Opus = {
     intro: string,//介绍
     colleciton: number,//收藏数
     favor:number//点赞数
+    type:string//分类
 }

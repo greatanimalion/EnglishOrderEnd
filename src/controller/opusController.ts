@@ -14,6 +14,23 @@ class OpusController {
             }
         });
     }
+    getOpusListByUserId(req: Request, res: Response) {
+        const {userId,page,limit} = req.body;
+        if (!userId||!page||!limit){
+            res.json(response.error('参数错误', 'error', 404));
+            return 
+        }
+        OpusService.getOpusByUserId({userId,page,limit}).then((result: any) => {
+            if (result) {
+                res.json(response.success(result, 'success', 200));
+            } else {
+                res.json(response.error('获取失败', 'error', 404));
+            }
+        }).catch(()=>{
+            res.json(response.error('获取失败', 'error', 404));
+        })
+
+    }
     async createOpus(req: Request, res: Response) {
         res.json(response.success('上传成功', 'success', 200))
         console.log(req.body)
@@ -39,7 +56,18 @@ class OpusController {
         
     }
     updateOpus(req: Request, res: Response) {
-        res.send('OpusController.updateOpus');
+        const {id, title, time, intro,type} = req.body;
+        console.log(req.body);
+        
+        if(!id ||!title  ||!time ||!intro||isNaN(Number(type))){
+            res.json(response.error('参数错误', 'error', 400))
+            return
+        }
+        OpusService.updateOpus({id, title, time, intro,type}).then(()=>{
+            res.json(response.success('更新成功', 'success', 200))
+        }).catch(()=>{
+            res.json(response.error('更新失败', 'error', 400))
+        })
     }
 }
 export default new OpusController();

@@ -11,7 +11,7 @@ class OpusService {
     /**
      * 根据id查视频
     */
-   getOpusById(opusId: number) {
+    getOpusById(opusId: number) {
         return connectionQuery(sqlMap.Opus.getOpusById(opusId));
     }
     /**
@@ -31,16 +31,22 @@ class OpusService {
     */
     async opusDelete(id: number) {
         let opus = await this.getOpusById(id) as any
-        if(!opus[0])return { error: true }
-        let src=opus[0].src;
+        if (!opus[0]) return { error: true }
+        let src = opus[0].src;
         if (!src) return { error: true }
-        try{
-           await deleteImg(src)
-        }catch(error){
+        try {
+            await deleteImg(src)
+        } catch (error) {
             return { error: true }
         }
         let res = await connectionQuery(sqlMap.Opus.opusDel(id));
         return res;
+    }
+    /**
+     * 更新作品
+    */
+    updateOpus(opus: { id: number, title: string, time: string, intro: string,type:string }) {
+        return connectionQuery(sqlMap.Opus.updateOpus(opus));
     }
 }
 export default new OpusService;

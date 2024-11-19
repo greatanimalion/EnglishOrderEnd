@@ -15,11 +15,9 @@ export default {
     getOpusByTitle: (title: string) => {
         return `select * from opus where title like '%${title}%'`;
     },
-    opusUpdate: (data: any) => {
+    updateOpus: ({id, title, time,intro,type}:{id: number, title: string, time: string,intro: string,type: string}) => {
         return `
-          update opus set title = '${data.title}',author = '${data.author}',
-          content = '${data.content}',create_time = '${data.create_time}',update_time = '${data.update_time}' where id = '${data.id}'
-          `;
+          update opus set title = '${title}',time = '${time}',intro = '${intro}',type = '${type}' where id =${id}`;
     },
     /**
    * 根据用户id分页查询
