@@ -9,9 +9,9 @@ function saveImg(file: any) {
       let extName = file.mimetype.split('/')[1]// 拓展名
       let imgName = `${Date.now()}.${extName}`
       //存入的地址
-      await fs.writeFile(path.join(__dirname, `../../public/videos/${imgName}`), data, (err:any) => {
+      await fs.writeFile(path.join(__dirname, `../../public/imgs/${imgName}`), data, (err:any) => {
         if (err) { reject(err) }
-        resolve(`/public/videos/${imgName}`)
+        resolve(`/public/imgs/${imgName}`)
       })
       // 删除二进制文件
       await fs.unlink(file.path, (err:any) => {

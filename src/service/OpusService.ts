@@ -5,8 +5,8 @@ class OpusService {
     /**
      * 查询用户所以相关视频
     */
-    getOpusByUserId(userId: number) {
-        return connectionQuery(sqlMap.Opus.getOpusByOpusUserId(userId));
+    getOpusByUserId(data: { userId: number, page: number, limit: number }) {
+        return connectionQuery(sqlMap.Opus.pagingByUserIdQuery(data));
     }
     /**
      * 根据id查视频
@@ -14,6 +14,9 @@ class OpusService {
    getOpusById(opusId: number) {
         return connectionQuery(sqlMap.Opus.getOpusById(opusId));
     }
+    /**
+     * 创建视频
+    */
     async createOpus(opus: { title: string, userId: number, time: string, intro: string }, file: any) {
         try {
             let src = await saveImg(file) as string

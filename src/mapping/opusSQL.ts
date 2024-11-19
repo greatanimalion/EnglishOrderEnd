@@ -5,15 +5,12 @@ export default {
     opusDel: (id: number) => {
         return `delete from opus where id = ${id}`;
     },
-    getOpusByOpusUserId: (userId: number) => {
-        return `select *from opus where userId = ${userId}`;
-    },
     getOpusById: (id: number) => {
         return `select * from opus where id = ${id}`;
     },
-    createOpus: (data: {title: string, userId: number, time: string, src: string,intro: string}) => {
+    createOpus: ({title, userId, time, src, intro}:{title: string, userId: number, time: string, src: string,intro: string}) => {
         return `insert into opus (title,userId,time,src,intro) 
-        values ('${data.title}','${data.userId}','${data.time}','${data.src}','${data.intro}')`;
+        values ('${title}','${userId}','${time}','${src}','${intro}')`;
     },
     getOpusByTitle: (title: string) => {
         return `select * from opus where title like '%${title}%'`;
@@ -31,7 +28,7 @@ export default {
    * @param {number} limit 查询条数
    * @returns {string} 返回值为string类型
    */
-    pagingByUserIdQuery: (userId:number,page: number, limit: number) => {
+    pagingByUserIdQuery: ({userId,page, limit}: {userId: number, page: number, limit: number}) => {
         const offset = (page - 1) * limit;
         return `select * from opus where userId = ${userId} limit ${limit} offset ${offset}`;
     }

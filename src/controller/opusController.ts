@@ -10,7 +10,7 @@ class OpusController {
             if (result) {
                 res.json(response.success(result, 'success', 200));
             } else {
-                response.error('获取失败', 'error', 404);
+                res.json(response.error('获取失败', 'error', 404));
             }
         });
     }
