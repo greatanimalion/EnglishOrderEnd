@@ -1,31 +1,27 @@
-import {AddUser,User} from '../models/userModel.js';
 export const userSQL = {
     userDel: (id: number) => {
         return `delete from user where id = ${id}`;
     },
-    userAdd: (user: AddUser) => {
+    userAdd: (user: {email: string, password: string}) => {
         return `insert into user (email,password)
          values (${user.email},${user.password})`;
     },
     getUserByEmailQuery: (emial: string) => {
-        return `select email from user where email ='${emial}'`;
+        return `select email from user 
+        where email ='${emial}'`;
     },
-    getUserByNameDimQuery: (emial: string) => {
-        return `select email from user where account like '%${emial}%'`;
+    getUserByNameDimQuery: (data: {name: string,page: number,limit: number}) => {
+        return `select id,name,intro,area,sex,vip,email from user 
+        where name like '%${data.name}%'
+        limit ${(data.page - 1) * data.limit},${data.limit}`;
     },
-    getUserByNameQuery: (account: string) => {
-        return `select id,account,password,email,weight from user where account = '${account}'`;
+    userUpdate: (data: {id: number, name: string, intro: string, area: string, sex: number}) => {
+        return `update user set name = '${data.name}',intro = '${data.intro}',area = '${data.area}',sex = ${data.sex}
+        where id = ${Number(data.id)}`;
     },
-    userUpdate: (data: User) => {
-        return `
-        update user set account = '${data}',password = '${data.password}',
-        email = '${data.email}',name = ${data.name} where id = '${data.id}'
-      `;
-    },
-    userUpdateActive: (data: {id: number, vip: number}) => {
-        return `
-      update user set vip = ${data.vip} where id = '${data.id}'
-    `;
+    userSetVip: (data: {id: number, vip: number}) => {
+        return `update user set vip = ${data.vip} 
+        where id = ${Number(data.id)}`;
     },
 }
 export default userSQL;

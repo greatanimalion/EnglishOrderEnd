@@ -4,14 +4,9 @@ export type User = {
     email: string,//邮箱
     intro: string,///个人简介
     avatorUrl: string,//头像地址
-    vip:number,//是否是vip
+    vip:string,//vip过期时间
     password: string,//密码
     area: string,//地区
-    sex:number,//性别
+    sex:number,//性别  0未知 1男 2女
     birthday: string,//出生日期
-}
-
-export type AddUser = {
-    email: string,//邮箱
-    password: string,//密码
 }

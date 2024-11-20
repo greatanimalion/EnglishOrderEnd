@@ -1,5 +1,5 @@
 {
-    "watch": ["src/index.ts","src/**/*"],
+    "watch": ["src/index.ts","src/**/*","index.js"],
     "ignore":["ndoe_modules","dist","lib","public"],
     "exec": "tsc && node index.js",
     "ext": ".ts"

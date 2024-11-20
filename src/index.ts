@@ -31,10 +31,6 @@ app.use((req:any, res:any, next:any) => {
     },0)
 })
 app.use(router);
-app.use((req, res, next)=>{
-    console.log(1,req,res,next);
-    
-})
 const run = () => {
     app.listen(3000, () => {
         console.log('Server is running');

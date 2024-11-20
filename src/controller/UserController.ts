@@ -6,42 +6,48 @@ controller文件夹主要用于存放处理请求和响应的代码，
 */
 import UserService from '../service/UserService.js';
 import response from '../utils/response.js';
-import type {Request, Response} from 'express'
+import type { Request, Response } from 'express'
 class UserController {
   /**
    * 获得管理员列表分页数据
    * @param {Context} ctx
    */
-  getUserList(req:Request, res:Response) {
+  getUserList(req: Request, res: Response) {
     const { limit, page } = req.body;
+    if (!limit || !page) {
+      res.json(response.error('参数错误', 'error', 400))
+      return
+    }
     UserService.getUserListPage({ limit, page })
-      .then((result:any) => {
-        res.json(response.success(result,undefined, 200));
+      .then((result: any) => {
+        res.json(response.success(result, undefined, 200));
       })
-      .catch((err:any) => {
+      .catch((err: any) => {
         res.json(response.error(err.code, undefined, err.errno));
       });
   }
-
   /**
-   * 新增数据
+   * 新增用户
    * @param {Context} ctx
    */
-  async addUser(req:Request, res:Response) {
-    const { body: {email,password} } = req;
-    if(!email ||!password)res.json(response.error('参数错误', undefined, 404));
+  async addUser(req: Request, res: Response) {
+    const { body: { email, password } } = req;
+    if (!email || !password) {
+      res.json(response.error('参数错误', undefined, 404));
+      return
+    }
     const isUser = await UserService.getUserByEmail(email) as any;
     if (isUser.length) {
       res.json(
-        response.error(`新增用户${isUser[0].email}已存在！`, undefined, 200)
+        response.error(`新增用户${isUser[0].email}已存在！`, "error", 200)
       );
       return;
     }
-    UserService.addUserInfo({ email, password })
+    UserService.addUser({ email, password })
       .then(() => {
-        res.json(response.success("创建成功",undefined, 200));
+        res.json(response.success("创建成功", undefined, 200));
       })
-      .catch((err:any) => {
+      .catch((err: any) => {
         res.json(response.error(err.code, undefined, err.errno));
       });
   }
@@ -50,59 +56,72 @@ class UserController {
    * 更新数据
    * @param {Context} ctx
    */
-  updateUser(req:Request, res:Response) {
-    const { body: User } = req;
-    UserService.updateUser(User)
-      .then((result:any) => {
-        res.json(response.success('更新成功',undefined, 200));
+  updateUser(req: Request, res: Response) {
+    const { id, name = "", intro = "", area = "", sex =0 } = req.body;
+    if (!id) {
+      res.json(response.error('参数错误', undefined, 400));
+      return;
+    }
+    UserService.updateUserInfo({ id, name, intro, area, sex })
+      .then(() => {
+        res.json(response.success('更新成功', undefined, 200));
       })
-      .catch((err:any) => {
-        res.json(response.error(err.code, undefined, err.errno));
+      .catch((e) => {
+        console.log(e);
+        
+        res.json(response.error("修改失败", undefined,400));
       });
   }
 
   /**
-   * 删除数据
+   * 删除用户
    * @param {Context} ctx
    */
-  deleteUser(req:Request, res:Response) {
+  deleteUser(req: Request, res: Response) {
     const { id } = req.body;
+    if (!id) {
+      res.json(response.error('参数错误', undefined, 400));
+      return;
+    }
     UserService.delUser(id)
       .then(() => {
-        res.json(response.success('删除成功',undefined, 200));
+        res.json(response.success('删除成功', undefined, 200));
       })
-      .catch((err:any) => {
+      .catch((err: any) => {
         res.json(response.error(err.code, undefined, err.errno));
       });
   }
 
   /**
-   * 模糊查询管理员信息
-   * @param ctx 上下文
+   * 获取用户信息
    */
-  getUserDim(req:Request, res:Response) {
+  getUserByEmail(req: Request, res: Response) {
     const { account } = req.query;
     UserService.getUserByEmail(account as string)
-      .then((result:any) => {
-        res.json(response.success(result,undefined,200));
+      .then((result: any) => {
+        res.json(response.success(result, undefined, 200));
       })
-      .catch((err:any) => {
+      .catch((err: any) => {
         res.json(response.error(err.code, undefined, err.errno));
       });
   }
 
   /**
-   * 修改管理员登录权限
+   * 根据用户名模糊查找用户
    * @param ctx 上下文
    */
-  editUserInfo(req:Request, res:Response) {
-    const { body } = req;
-    UserService.editUserInfo(body)
-      .then((result:any) => {
-        res.json(response.success('修改成功',undefined, 200));
+  findUserByUserNameDim(req: Request, res: Response) {
+    const { name,page,limit } = req.body;
+    if(!name || !page || !limit){
+      res.json(response.error('参数错误', undefined, 400));
+      return
+    }
+    UserService.getUserByNameDimQuery({ name,page,limit })
+      .then((result: any) => {
+        res.json(response.success(result,'success', 200));
       })
-      .catch((err:any) => {
-        res.json(response.error(err.code, undefined, err.errno));
+      .catch((err: any) => {
+        res.json(response.error("查找失败", undefined, 400));
       });
   }
 }
