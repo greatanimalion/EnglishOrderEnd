@@ -9,6 +9,18 @@ class OpusService {
         return connectionQuery(sqlMap.Opus.pagingByUserIdQuery(data));
     }
     /**
+     * 根据关键词搜索相关视频
+    */
+    findOpusByKeyDim({ key ,page, limit }:{ key: string, page: number, limit: number }){
+        return connectionQuery(sqlMap.Opus.findOpusByKeyDim({ key, page, limit }));
+    }
+    /**
+     * 根据类型搜索相关视频
+    */
+    findOpusByType({ label ,page, limit }:{ label: string, page: number, limit: number }){
+        return connectionQuery(sqlMap.Opus.findOpusBylabel({ label, page, limit }));
+    }
+    /**
      * 根据id查视频
     */
     getOpusById(opusId: number) {
@@ -45,7 +57,7 @@ class OpusService {
     /**
      * 更新作品
     */
-    updateOpus(opus: { id: number, title: string, time: string, intro: string,type:string }) {
+    updateOpus(opus: { id: number, title: string, time: string, intro: string,label:string }) {
         return connectionQuery(sqlMap.Opus.updateOpus(opus));
     }
 }

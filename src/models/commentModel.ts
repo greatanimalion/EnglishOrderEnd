@@ -4,6 +4,7 @@ export type Comment = {
     opusId: number,//所属作品id
     content: string,//评论内容
     time:string,//评论时间
-    level: number,//评论层级
+    targetUserId: number,//评论目标id
     parentId: number,//父级id
+    favorite: number,//点赞数
 }

@@ -1,21 +1,14 @@
-/*
-controller文件夹主要用于存放处理请求和响应的代码，
-这也是对代码的一种解耦，这里只处理请求和响应的值，
-不做业务的处理和数据的操作，
-当然它也可以直接处理请求并返回响应数据但是我们不建议这样去做。
-*/
 import UserService from '../service/UserService.js';
 import response from '../utils/response.js';
 import type { Request, Response } from 'express'
 class UserController {
   /**
    * 获得管理员列表分页数据
-   * @param {Context} ctx
    */
   getUserList(req: Request, res: Response) {
     const { limit, page } = req.body;
     if (!limit || !page) {
-      res.json(response.error('参数错误', 'error', 400))
+      res.json(response.error(0))
       return
     }
     UserService.getUserListPage({ limit, page })
@@ -23,43 +16,38 @@ class UserController {
         res.json(response.success(result, undefined, 200));
       })
       .catch((err: any) => {
-        res.json(response.error(err.code, undefined, err.errno));
+        res.json(response.error(5));
       });
   }
   /**
    * 新增用户
-   * @param {Context} ctx
    */
   async addUser(req: Request, res: Response) {
     const { body: { email, password } } = req;
     if (!email || !password) {
-      res.json(response.error('参数错误', undefined, 404));
+      res.json(response.error(0));
       return
     }
     const isUser = await UserService.getUserByEmail(email) as any;
     if (isUser.length) {
-      res.json(
-        response.error(`新增用户${isUser[0].email}已存在！`, "error", 200)
-      );
+      res.json({data:`新增用户${isUser[0].email}已存在！`, msg:"error", code:400});
       return;
     }
     UserService.addUser({ email, password })
       .then(() => {
         res.json(response.success("创建成功", undefined, 200));
       })
-      .catch((err: any) => {
-        res.json(response.error(err.code, undefined, err.errno));
+      .catch(() => {
+        res.json(response.error(5));
       });
   }
-
   /**
    * 更新数据
-   * @param {Context} ctx
    */
   updateUser(req: Request, res: Response) {
     const { id, name = "", intro = "", area = "", sex =0 } = req.body;
     if (!id) {
-      res.json(response.error('参数错误', undefined, 400));
+      res.json(response.error(0));
       return;
     }
     UserService.updateUserInfo({ id, name, intro, area, sex })
@@ -69,43 +57,61 @@ class UserController {
       .catch((e) => {
         console.log(e);
         
-        res.json(response.error("修改失败", undefined,400));
+        res.json(response.error(5));
       });
   }
 
   /**
-   * 删除用户
-   * @param {Context} ctx
    */
   deleteUser(req: Request, res: Response) {
     const { id } = req.body;
     if (!id) {
-      res.json(response.error('参数错误', undefined, 400));
+      res.json(response.error(0));
       return;
     }
     UserService.delUser(id)
       .then(() => {
         res.json(response.success('删除成功', undefined, 200));
       })
-      .catch((err: any) => {
-        res.json(response.error(err.code, undefined, err.errno));
+      .catch(() => {
+        res.json(response.error(5));
       });
   }
 
   /**
-   * 获取用户信息
+   * 根据email获取用户信息
    */
   getUserByEmail(req: Request, res: Response) {
-    const { account } = req.query;
-    UserService.getUserByEmail(account as string)
+    const { emial } = req.query;
+    if(!emial){
+      res.json(response.error(0));
+      return 
+    }
+    UserService.getUserByEmail(emial as string)
+      .then((result: any) => {
+        res.json(response.success(result, undefined, 200));
+      })
+      .catch(() => {
+        res.json(response.error(5));
+      });
+  }
+  /**
+   * 根据id获取用户信息
+   */
+  getUserById(req: Request, res: Response) {
+    const { id } = req.query;
+    if(!id){
+      res.json(response.error(0));
+      return
+    }
+    UserService.getUserById(Number(id))
       .then((result: any) => {
         res.json(response.success(result, undefined, 200));
       })
       .catch((err: any) => {
-        res.json(response.error(err.code, undefined, err.errno));
+        res.json(response.error(5));
       });
-  }
-
+  } 
   /**
    * 根据用户名模糊查找用户
    * @param ctx 上下文
@@ -113,7 +119,7 @@ class UserController {
   findUserByUserNameDim(req: Request, res: Response) {
     const { name,page,limit } = req.body;
     if(!name || !page || !limit){
-      res.json(response.error('参数错误', undefined, 400));
+      res.json(response.error(0));
       return
     }
     UserService.getUserByNameDimQuery({ name,page,limit })
@@ -121,8 +127,22 @@ class UserController {
         res.json(response.success(result,'success', 200));
       })
       .catch((err: any) => {
-        res.json(response.error("查找失败", undefined, 400));
+        res.json(response.error(5));
       });
+  }
+  updatePwd(req: Request, res: Response){
+    const { id, oldPassword, newPassword } = req.body;
+    if(!id || !oldPassword || !newPassword){
+      res.json(response.error(0));
+      return
+    }
+    UserService.updatePwd({ id, oldPassword, newPassword })
+      .then(() => {
+        res.json(response.success("修改成功", undefined, 200));
+      })  
+      .catch((err: any) => {
+        res.json(response.error(5));
+      })
   }
 }
 export default new UserController();

@@ -8,12 +8,16 @@ mapping文件夹主要用于存放对不同数据表进行操作的sql语句，
 
 import userSQL from './userSQL.js';
 import opusSQL from './opusSQL.js';
+import commentSQL from './commentSQL.js';
 const sqlMap = {
   User: {
     ...userSQL
   },
   Opus:{
     ...opusSQL
+  },
+  Comment:{
+    ...commentSQL
   },
   /**
    * 无条件分页查询

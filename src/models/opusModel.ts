@@ -5,7 +5,7 @@ export type Opus = {
     title:string,//标题
     src: string,//地址
     intro: string,//介绍
-    colleciton: number,//收藏数
-    favor:number//点赞数
-    type:string//分类
+    lable:string,//标签
+    coverImg:string,//封面图
+    type:string//图片or视频
 }

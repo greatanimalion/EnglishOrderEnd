@@ -18,19 +18,20 @@ app.use(session({
 }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use((req:any, res:any, next:any) => {
-    console.log("method:" + req.method + ',url:' + req.url)
-    next()
-})
+// app.use((req:any, res:any, next:any) => {
+//     console.log("method:" + req.method + ',url:' + req.url)
+//     next()
+// })
 app.use('/public',express.static('./public'));
 
-app.use((req:any, res:any, next:any) => {
-    //模拟延迟
-    setTimeout(() => {
-        next();
-    },0)
-})
+// app.use((req:any, res:any, next:any) => {
+//     setTimeout(() => {
+//         next();
+//     },0)
+// })
+
 app.use(router);
+
 const run = () => {
     app.listen(3000, () => {
         console.log('Server is running');

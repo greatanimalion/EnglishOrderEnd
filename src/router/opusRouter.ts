@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const router = express.Router(); 
 //创建multer的实例对象，通过dest属性指定文件的存放路径
-const upload = multer({ dest: path.join(__dirname, '../../public/videos') })
+const upload = multer({ dest: path.join(__dirname, '../../public/bin') })
 
 //创建opus
 router.post('/createOpus', upload.single('video'),OpusController.createOpus)
@@ -18,7 +18,9 @@ router.delete('/del',OpusController.deleteOpus)
 router.put('/update',OpusController.updateOpus)
 //根据用户id分页查找其所有作品
 router.post('/findByUser',OpusController.getOpusListByUserId)
-
-
+//根据类型查找作品
+router.post('/label',OpusController.findOpusByLabel)
+//根据关键词查找作品
+router.post('/key',OpusController.findOpusByKeyDim)
 
 export default router

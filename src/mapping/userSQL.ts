@@ -7,8 +7,12 @@ export const userSQL = {
          values (${user.email},${user.password})`;
     },
     getUserByEmailQuery: (emial: string) => {
-        return `select email from user 
+        return `select id,name,intro,area,sex,vip,email from user 
         where email ='${emial}'`;
+    },
+    getUserByIdQuery: (id: number) => {
+        return `select id,name,intro,area,sex,vip,email from user 
+        where id = ${id}`;
     },
     getUserByNameDimQuery: (data: {name: string,page: number,limit: number}) => {
         return `select id,name,intro,area,sex,vip,email from user 
@@ -23,5 +27,12 @@ export const userSQL = {
         return `update user set vip = ${data.vip} 
         where id = ${Number(data.id)}`;
     },
+    updatePwd(data: {id: number, password: string}) {
+        return `update user set password = '${data.password}' 
+        where id = ${Number(data.id)}`;
+    },
+    getUserPwd(id: number) {
+        return `select password from user where id = ${id}`;
+    }
 }
 export default userSQL;
