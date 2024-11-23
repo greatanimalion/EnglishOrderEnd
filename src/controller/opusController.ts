@@ -1,7 +1,6 @@
 import { Response, Request } from 'express';
 import OpusService from '../service/OpusService.js';
 import response from '../utils/response.js';
-
 class OpusController {
     getOpusById(req: Request, res: Response) {
         const id = +req.params.id;
@@ -32,12 +31,12 @@ class OpusController {
 
     }
     async createOpus(req: Request, res: Response) {
-        const { title, userId, time, intro } = req.body;
-        if (!title || !userId || !time || !intro) {
+        const { title, userId, time, intro,label,type } = req.body;
+        if (!title || !userId || !time || !intro||!label||!type) {
             res.json(response.error(0))
             return
         }
-        let result = await OpusService.createOpus({ title, userId, time, intro }, req.file) as any;
+        let result = await OpusService.createOpus({ title, userId, time, intro,label,type }, req.file as any) as any;
         if (result.error) {
             res.json(response.error(1))
             return
@@ -46,7 +45,6 @@ class OpusController {
     }
     async deleteOpus(req: Request, res: Response) {
         const id = req.body.id;
-        console.log(req.body,id);
         if(!id){res.json(response.error(0));return}
         let result = await OpusService.opusDelete(id) as any;
         if(result.error)res.json(response.error(5));

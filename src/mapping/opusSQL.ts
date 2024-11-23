@@ -8,9 +8,10 @@ export default {
     getOpusById: (id: number) => {
         return `select * from opus where id = ${id}`;
     },
-    createOpus: ({ title, userId, time, src, intro }: { title: string, userId: number, time: string, src: string, intro: string }) => {
-        return `insert into opus (title,userId,time,src,intro) 
-        values ('${title}','${userId}','${time}','${src}','${intro}')`;
+    createOpus: ({ title, userId, time, coverImg,videoSrc, intro,type }:
+         {type:number, title: string, userId: number, time: string, intro: string , coverImg: string,videoSrc:string}) => {
+        return `insert into opus (title,userId,time,src,intro,type,coverImg) 
+        values ('${title}','${userId}','${time}','${videoSrc}','${intro}',${type},'${coverImg}')`;
     },
     getOpusByTitle: (title: string) => {
         return `select * from opus where title like '%${title}%'`;

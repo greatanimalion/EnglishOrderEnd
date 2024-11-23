@@ -1,6 +1,7 @@
 import sqlMap from "../mapping/sqlMap.js";
 import connectionQuery from "../utils/connectionQuey.js";
 import saveImg, { deleteImg } from '../utils/saveImg.js';
+import { opusType } from "../const/opusType.js";
 class OpusService {
     /**
      * 查询用户所以相关视频
@@ -11,13 +12,13 @@ class OpusService {
     /**
      * 根据关键词搜索相关视频
     */
-    findOpusByKeyDim({ key ,page, limit }:{ key: string, page: number, limit: number }){
+    findOpusByKeyDim({ key, page, limit }: { key: string, page: number, limit: number }) {
         return connectionQuery(sqlMap.Opus.findOpusByKeyDim({ key, page, limit }));
     }
     /**
-     * 根据类型搜索相关视频
+     * 根据笔标签搜索相关视频
     */
-    findOpusByType({ label ,page, limit }:{ label: string, page: number, limit: number }){
+    findOpusByType({ label, page, limit }: { label: string, page: number, limit: number }) {
         return connectionQuery(sqlMap.Opus.findOpusBylabel({ label, page, limit }));
     }
     /**
@@ -26,28 +27,42 @@ class OpusService {
     getOpusById(opusId: number) {
         return connectionQuery(sqlMap.Opus.getOpusById(opusId));
     }
-    /**
-     * 创建视频
-    */
-    async createOpus(opus: { title: string, userId: number, time: string, intro: string }, file: any) {
+    // 创建文章
+    async createOpus(opus: { type: number, title: string, userId: number, time: string, intro: string, label: string }, file: any[]) {
         try {
-            let src = await saveImg(file) as string
-            return connectionQuery(sqlMap.Opus.createOpus({ ...opus, src }));
+            if(file.length < 2)return { error: true }
+            let coverImg = await saveImg(file.pop()) as string
+            let videoSrc = ''
+            if (opus.type = opusType.article) {
+                file.map(async (item) => {
+                    videoSrc += await saveImg(item) + "|"
+                })
+            } else {
+                videoSrc = await saveImg(file[0]) as string
+            }
+            return connectionQuery(sqlMap.Opus.createOpus({ ...opus, coverImg, videoSrc }));
         } catch (error) {
-            console.log(error)
-            return { error: false }
+            return { error: true }
         }
     }
-    /**
-     * 删除作品
-    */
+    // 删除作品
     async opusDelete(id: number) {
         let opus = await this.getOpusById(id) as any
         if (!opus[0]) return { error: true }
         let src = opus[0].src;
-        if (!src) return { error: true }
+        let coverImg = opus[0].coverImg;
+        if (!src || !coverImg) return { error: true }
         try {
-            await deleteImg(src)
+            await deleteImg(coverImg)
+            if (opus[0].type == opusType.vedio) {
+                await deleteImg(src)
+            }else {
+                let videoSrc = opus[0].vedioSrc.split("|")
+                videoSrc.pop()
+                videoSrc.map(async (item: string) => {
+                    await deleteImg(item)
+                })
+            }
         } catch (error) {
             return { error: true }
         }
@@ -57,7 +72,7 @@ class OpusService {
     /**
      * 更新作品
     */
-    updateOpus(opus: { id: number, title: string, time: string, intro: string,label:string }) {
+    updateOpus(opus: { id: number, title: string, time: string, intro: string, label: string }) {
         return connectionQuery(sqlMap.Opus.updateOpus(opus));
     }
 }

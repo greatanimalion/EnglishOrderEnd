@@ -9,7 +9,7 @@ const router = express.Router();
 const upload = multer({ dest: path.join(__dirname, '../../public/bin') })
 
 //创建opus
-router.post('/createOpus', upload.single('video'),OpusController.createOpus)
+router.post('/createVedio', upload.array('coverImg',2),OpusController.createOpus)
 //精确查找opus
 router.get('/:id',OpusController.getOpusById)
 //删除作品

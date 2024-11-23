@@ -4,9 +4,9 @@ export default{
         return `insert into comment (userId,opusId,targetUserId,content,time,parentId) values
          (${userId},${opusId},${targetUserId},'${content}','${time}',${parentId})`;
     },
-    createComment({userId,opusId,content,time,parentId}:{userId:number,opusId:number,content:string,time:string,parentId:number}){
-            return `insert into comment (userId,opusId,content,time,parentId) 
-            values (${userId},${opusId},'${content}','${time}',${parentId})`;
+    createComment({userId,opusId,content,time}:{userId:number,opusId:number,content:string,time:string}){
+            return `insert into comment (userId,opusId,content,time) 
+            values (${userId},${opusId},'${content}','${time}')`;
     },
     commentDel(id:number){
         return `delete from comment where id = ${id}`;

@@ -1,15 +1,18 @@
 import sql from '../mapping/sqlMap';
 import connectionQuery from '../utils/connectionQuey';
 class CommonService {
-    createComment(data: {userId: number, content: string, targetUserId?: number,opusId: number,time:string,parentId:number}) {
-        if(!!data.targetUserId){
-            return connectionQuery(sql.Comment.createCommenWithTarget(data  as any));
+    createComment({
+        userId, content, opusId,time,targetUserId,parentId
+    }: {userId: number, content: string, opusId: number,time:string,targetUserId?: number,parentId?:number}) {
+        if(!!targetUserId&&!!parentId){
+            return connectionQuery(sql.Comment.createCommenWithTarget({userId, content, opusId,time,targetUserId,parentId}));
         }
-        else return connectionQuery(sql.Comment.createComment(data));
+        else return connectionQuery(sql.Comment.createComment({userId, content, opusId,time}));
     }
     commentDel(id: number){
         return connectionQuery(sql.Comment.commentDel(id));
     }
+    //得到子评论
     findSubComments(data: {userId: number,opusId: number,parentId:number,page:number,limit:number}){
         return connectionQuery(sql.Comment.findSubComments(data));
     }
