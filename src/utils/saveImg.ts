@@ -6,7 +6,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const imgExt=['jpg', 'jpeg', 'png', 'gif']
 const videoExt=['mp4', 'avi', 'wmv', 'rmvb', 'flv']
 function saveImg(file: any) {
-  return new Promise((resolve, reject) => {
+  return new Promise<string>((resolve, reject) => {
     fs.readFile(file.path, async (err:any, data:any) => {
       if (err) {reject(err)}
       let extName = file.mimetype.split('/')[1]// 拓展名

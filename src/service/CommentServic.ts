@@ -1,5 +1,5 @@
-import sql from '../mapping/sqlMap';
-import connectionQuery from '../utils/connectionQuey';
+import sql from '../mapping/sqlMap.js';
+import connectionQuery from '../utils/connectionQuey.js';
 class CommonService {
     createComment({
         userId, content, opusId,time,targetUserId,parentId

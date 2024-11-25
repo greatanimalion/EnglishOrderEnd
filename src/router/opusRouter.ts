@@ -9,18 +9,19 @@ const router = express.Router();
 const upload = multer({ dest: path.join(__dirname, '../../public/bin') })
 
 //创建opus
-router.post('/createVedio', upload.array('coverImg',2),OpusController.createOpus)
+router.post('/createOpus',OpusController.createOpus)
 //精确查找opus
 router.get('/:id',OpusController.getOpusById)
 //删除作品
 router.delete('/del',OpusController.deleteOpus)
 //更新作品
-router.put('/update',OpusController.updateOpus)
+router.put('/updata',OpusController.updateOpus)
 //根据用户id分页查找其所有作品
 router.post('/findByUser',OpusController.getOpusListByUserId)
 //根据类型查找作品
 router.post('/label',OpusController.findOpusByLabel)
 //根据关键词查找作品
 router.post('/key',OpusController.findOpusByKeyDim)
-
+//上传照片
+router.post('/upload',upload.single("utils"),OpusController.upload)
 export default router

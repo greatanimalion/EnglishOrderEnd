@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
-import response from "../utils/response";
-import CommentServic from "../service/CommentServic";
+import response from "../utils/response.js";
+import CommentServic from "../service/CommentServic.js";
 
 class CommentController {
   createComment(req: Request, res: Response) {

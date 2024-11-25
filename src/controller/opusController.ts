@@ -4,7 +4,7 @@ import response from '../utils/response.js';
 class OpusController {
     getOpusById(req: Request, res: Response) {
         const id = +req.params.id;
-        if (!id) response.error(0);
+        if (!id) { res.json(response.error(0)); return;}
         OpusService.getOpusById(+req.params.id).then((result: any) => {
             if (result) {
                 res.json(response.success(result, 'success', 200));
@@ -31,35 +31,37 @@ class OpusController {
 
     }
     async createOpus(req: Request, res: Response) {
-        const { title, userId, time, intro,label,type } = req.body;
-        if (!title || !userId || !time || !intro||!label||!type) {
+        const { userId,type } = req.body;
+        if (!userId||!type) {
             res.json(response.error(0))
             return
         }
-        let result = await OpusService.createOpus({ title, userId, time, intro,label,type }, req.file as any) as any;
+        let result = await OpusService.createOpus({ userId,type }) as any;
         if (result.error) {
             res.json(response.error(1))
             return
         }
-        res.json(response.success('创建成功', 'success', 200))
+        res.json(response.success(result[0], 'success', 200))
     }
     async deleteOpus(req: Request, res: Response) {
-        const id = req.body.id;
-        if(!id){res.json(response.error(0));return}
-        let result = await OpusService.opusDelete(id) as any;
+        const {userId,opusId} = req.body;
+        if(!userId||!opusId){res.json(response.error(0));return}
+        let result = await OpusService.opusDelete({userId,opusId}) as any;
         if(result.error)res.json(response.error(5));
-        else res.json(response.success('删除成功', 'success', 200));
+        else res.json(response.success('删除成功'));
         
     }
     updateOpus(req: Request, res: Response) {
-        const {id, title, time, intro,label} = req.body;
-        if(!id ||!title  ||!time ||!intro||isNaN(Number(label))){
+        const {id, title, time, intro,label,content,coverImg,userId} = req.body;
+        if(!id ||!title||!time ||!intro||isNaN(Number(label))||!content||!coverImg||!userId){
             res.json(response.error(0))
             return
         }
-        OpusService.updateOpus({id, title, time, intro,label}).then(()=>{
-            res.json(response.success('更新成功', 'success', 200))
-        }).catch(()=>{
+        OpusService.updateOpus({id, title, time,userId,intro,label,content,coverImg}).then(()=>{
+            res.json(response.success('更新成功'))
+        }).catch((e)=>{
+            console.log(e);
+            
             res.json(response.error(5))
         })
     }
@@ -93,6 +95,24 @@ class OpusController {
             }
         }).catch(()=>{
             res.json(response.error(1));
+        })
+    }
+    upload(req:Request,res:Response){
+        const file=req.file
+        const {userId,opusId}=req.body
+        if(!userId||!opusId){
+            res.json(response.error(0))
+            return
+        }
+        OpusService.upload({userId,opusId},file).then((e)=>{
+            res.json(JSON.stringify({
+                errno:0,
+                url:e
+            }))
+        }).catch(()=>{
+            res.json(JSON.stringify({
+                errorno:1
+            }))
         })
     }
 }

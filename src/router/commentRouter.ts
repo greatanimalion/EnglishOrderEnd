@@ -1,5 +1,5 @@
 import express from 'express';
-import CommentController from '../controller/CommentController';
+import CommentController from '../controller/CommentController.js';
 const router = express.Router(); 
 //创建评论
 router.post('/createComment',CommentController.createComment);

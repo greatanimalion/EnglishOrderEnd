@@ -8,17 +8,20 @@ export default {
     getOpusById: (id: number) => {
         return `select * from opus where id = ${id}`;
     },
-    createOpus: ({ title, userId, time, coverImg,videoSrc, intro,type }:
-         {type:number, title: string, userId: number, time: string, intro: string , coverImg: string,videoSrc:string}) => {
-        return `insert into opus (title,userId,time,src,intro,type,coverImg) 
-        values ('${title}','${userId}','${time}','${videoSrc}','${intro}',${type},'${coverImg}')`;
+    createOpus: ({userId,type}:
+         {type:number,userId: number}) => {
+        return `insert into opus (userId,type,draft) values (${userId},${type},1)`;
+    },
+    getLatstOpus(userId:number){
+        return `select id from opus where userId = ${userId} and draft = 1 order by id desc limit 1`;
     },
     getOpusByTitle: (title: string) => {
         return `select * from opus where title like '%${title}%'`;
     },
-    updateOpus: ({ id, title, time, intro, label }: { id: number, title: string, time: string, intro: string, label: string }) => {
+    updateOpus: ({ id,userId, title, time, intro, label,content,coverImg}: 
+        { id: number,userId: number, title: string, time: string, intro: string, label: number,content:string,coverImg:string }) => {
         return `update opus 
-        set title = '${title}',time = '${time}',intro = '${intro}',label = '${label}' where id =${id}`;
+        set title = '${title}',time = '${time}',intro = '${intro}',label = ${label},content='${content}',coverImg='${coverImg}',draft=0 where id =${id} and userId=${userId}`;
     },
     /**
      * 根据关键词分页查询
@@ -47,5 +50,17 @@ export default {
     pagingByUserIdQuery: ({ userId, page, limit }: { userId: number, page: number, limit: number }) => {
         const offset = (page - 1) * limit;
         return `select * from opus where userId = ${userId} limit ${limit} offset ${offset}`;
+    },
+    //上传图片
+    upload({userId,opusId,src}:{userId:number,opusId:number,src:string}){
+        return `insert into utils (userId,opusId,src) 
+        values(${userId},${opusId},'${src}')`
+    },
+    delUtils(opusId:number){
+        return `delete from utils where opusId=${opusId}`
+    },
+    //获取一个作品的全部地址以便删除
+    getAllUtils({userId,opusId}:{userId:number,opusId:number}){
+        return `select * from utils where userId=${userId} and opusId=${opusId}`
     }
 }

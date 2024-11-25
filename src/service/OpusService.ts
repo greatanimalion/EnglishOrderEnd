@@ -1,7 +1,6 @@
 import sqlMap from "../mapping/sqlMap.js";
 import connectionQuery from "../utils/connectionQuey.js";
 import saveImg, { deleteImg } from '../utils/saveImg.js';
-import { opusType } from "../const/opusType.js";
 class OpusService {
     /**
      * 查询用户所以相关视频
@@ -28,52 +27,48 @@ class OpusService {
         return connectionQuery(sqlMap.Opus.getOpusById(opusId));
     }
     // 创建文章
-    async createOpus(opus: { type: number, title: string, userId: number, time: string, intro: string, label: string }, file: any[]) {
+    async createOpus(opus: { type: number,userId:number}) {
         try {
-            if(file.length < 2)return { error: true }
-            let coverImg = await saveImg(file.pop()) as string
-            let videoSrc = ''
-            if (opus.type = opusType.article) {
-                file.map(async (item) => {
-                    videoSrc += await saveImg(item) + "|"
-                })
-            } else {
-                videoSrc = await saveImg(file[0]) as string
-            }
-            return connectionQuery(sqlMap.Opus.createOpus({ ...opus, coverImg, videoSrc }));
+             await connectionQuery(sqlMap.Opus.createOpus(opus));
+             return connectionQuery(sqlMap.Opus.getLatstOpus(opus.userId))
         } catch (error) {
             return { error: true }
         }
     }
     // 删除作品
-    async opusDelete(id: number) {
-        let opus = await this.getOpusById(id) as any
-        if (!opus[0]) return { error: true }
-        let src = opus[0].src;
-        let coverImg = opus[0].coverImg;
-        if (!src || !coverImg) return { error: true }
+    async opusDelete({ opusId, userId }: {
+        opusId: number
+        userId: number
+    }) {
         try {
-            await deleteImg(coverImg)
-            if (opus[0].type == opusType.vedio) {
-                await deleteImg(src)
-            }else {
-                let videoSrc = opus[0].vedioSrc.split("|")
-                videoSrc.pop()
-                videoSrc.map(async (item: string) => {
-                    await deleteImg(item)
-                })
-            }
+            let utils = await connectionQuery(sqlMap.Opus.getAllUtils({ opusId, userId })) as any[]
+            await connectionQuery(sqlMap.Opus.delUtils(opusId))//删除数据库资源数据
+            utils.map(async (e) => {  
+                await deleteImg(e.src)//删除服务器资源图片
+            })
+            let res = await connectionQuery(sqlMap.Opus.opusDel(opusId));//删除数据库opus数据
+            return res;
         } catch (error) {
+            console.log(error);
             return { error: true }
         }
-        let res = await connectionQuery(sqlMap.Opus.opusDel(id));
-        return res;
     }
     /**
      * 更新作品
     */
-    updateOpus(opus: { id: number, title: string, time: string, intro: string, label: string }) {
+    updateOpus(opus: { id: number,userId: number,title: string, time: string, intro: string, label: number, content: string,coverImg:string }) {
         return connectionQuery(sqlMap.Opus.updateOpus(opus));
+    }
+    async upload(data: { userId: number, opusId: number }, file: any) {
+        const src = await saveImg(file)
+        try {
+            await connectionQuery(sqlMap.Opus.upload({ ...data, src }))
+            return src
+        } catch (e) {
+            console.log(e);
+            
+            return null
+        }
     }
 }
 export default new OpusService;
